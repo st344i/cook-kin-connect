@@ -1,0 +1,98 @@
+{
+  "name": "IngredientList",
+  "type": "object",
+  "properties": {
+    "booking_request_id": {
+      "type": "string"
+    },
+    "cook_email": {
+      "type": "string"
+    },
+    "customer_email": {
+      "type": "string"
+    },
+    "ingredients": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "purchased": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    },
+    "general_notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "booking_request_id"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.cook_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.cook_email": "{{user.email}}"
+        },
+        {
+          "data.customer_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.cook_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.cook_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

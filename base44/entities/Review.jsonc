@@ -1,0 +1,57 @@
+{
+  "name": "Review",
+  "type": "object",
+  "properties": {
+    "booking_request_id": {
+      "type": "string"
+    },
+    "cook_profile_id": {
+      "type": "string"
+    },
+    "reviewer_email": {
+      "type": "string"
+    },
+    "reviewer_name": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "integer"
+    },
+    "comment": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "booking_request_id",
+    "cook_profile_id",
+    "rating"
+  ],
+  "rls": {
+    "create": null,
+    "read": {},
+    "update": {
+      "$or": [
+        {
+          "data.reviewer_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.reviewer_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

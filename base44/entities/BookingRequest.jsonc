@@ -1,0 +1,134 @@
+{
+  "name": "BookingRequest",
+  "type": "object",
+  "properties": {
+    "customer_email": {
+      "type": "string"
+    },
+    "cook_email": {
+      "type": "string"
+    },
+    "cook_profile_id": {
+      "type": "string"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "customer_address": {
+      "type": "string"
+    },
+    "customer_lat": {
+      "type": "number"
+    },
+    "customer_lng": {
+      "type": "number"
+    },
+    "requested_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "requested_time": {
+      "type": "string"
+    },
+    "dishes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "servings": {
+            "type": "integer"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "number_of_people": {
+      "type": "integer"
+    },
+    "special_requests": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "quoted",
+        "accepted",
+        "rejected",
+        "completed",
+        "cancelled",
+        "paid"
+      ],
+      "default": "pending"
+    },
+    "quoted_price": {
+      "type": "number"
+    },
+    "final_price": {
+      "type": "number"
+    },
+    "cook_notes": {
+      "type": "string"
+    },
+    "customer_accepted_quote": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "customer_email",
+    "cook_profile_id"
+  ],
+  "rls": {
+    "create": {
+      "data.customer_email": "{{user.email}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "data.customer_email": "{{user.email}}"
+        },
+        {
+          "data.cook_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.customer_email": "{{user.email}}"
+        },
+        {
+          "data.cook_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.customer_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

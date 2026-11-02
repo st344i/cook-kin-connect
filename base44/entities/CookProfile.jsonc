@@ -1,0 +1,119 @@
+{
+  "name": "CookProfile",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "bio": {
+      "type": "string"
+    },
+    "specialties": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cuisines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "location_address": {
+      "type": "string"
+    },
+    "location_lat": {
+      "type": "number"
+    },
+    "location_lng": {
+      "type": "number"
+    },
+    "is_available": {
+      "type": "boolean",
+      "default": false
+    },
+    "available_dates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "date"
+      },
+      "description": "List of specific dates the cook is available (YYYY-MM-DD)"
+    },
+    "available_slots": {
+      "type": "array",
+      "description": "Per-date time slots",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "times": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "base_rate_per_dish": {
+      "type": "number"
+    },
+    "transport_fee": {
+      "type": "number"
+    },
+    "profile_image": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "number"
+    },
+    "total_reviews": {
+      "type": "integer"
+    },
+    "years_experience": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "display_name",
+    "user_email"
+  ],
+  "rls": {
+    "create": {
+      "data.user_email": "{{user.email}}"
+    },
+    "read": {},
+    "update": {
+      "$or": [
+        {
+          "data.user_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.user_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
